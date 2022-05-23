@@ -1,0 +1,9 @@
+[package]
+name = "linkprovider"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+protocol = { path = "../protocol" }
+crossbeam-channel = { version = "0.5", default-features = false, features = [ "std" ] }
+pnet = { version = "0.30", default-features = false, features = [ "std" ] }
