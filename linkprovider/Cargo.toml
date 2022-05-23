@@ -6,4 +6,5 @@ edition = "2021"
 [dependencies]
 protocol = { path = "../protocol" }
 crossbeam-channel = { version = "0.5", default-features = false, features = [ "std" ] }
+tokio = { version = "1", features = [ "macros", "rt-multi-thread", "sync" ], default-features = false }
 pnet = { version = "0.30", default-features = false, features = [ "std" ] }
