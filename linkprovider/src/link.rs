@@ -1,26 +1,25 @@
+use crate::device::Device;
+use async_trait::async_trait;
 use crossbeam_channel::Receiver;
 use protocol::NetworkPacket;
+use std::sync::atomic::AtomicBool;
+use tokio::sync::Mutex;
 
+static IS_STOP: AtomicBool = AtomicBool::new(false);
+static ALL_DEVICE: Mutex<Vec<Device>> = Mutex::const_new(vec![]);
+
+#[async_trait]
 pub trait Link {
-    fn detect(&mut self, interval: u64) -> Receiver<OnDevice>;
-    fn pair(&self, id: i64);
-    fn unpair(&self, id: i64);
-    fn send_packet(&self, packet: NetworkPacket);
+    async fn detect(interval: u64);
+    async fn serve() -> Receiver<(OnType, Device)>;
+    fn pair(id: i64);
+    fn unpair(id: i64);
+    fn send_packet(packet: NetworkPacket);
 }
 
 #[derive(PartialEq, Eq)]
 pub enum OnType {
-    ADD,
-    DEL,
     PAIR,
     UNPAIR,
     PACKET,
-}
-
-pub struct OnDevice {
-    pub on: OnType,
-    pub id: i64,
-    pub name: String,
-    pub os: String,
-    pub last_date: i64,
 }
