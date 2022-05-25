@@ -5,8 +5,8 @@ use protocol::NetworkPacket;
 use std::sync::atomic::AtomicBool;
 use tokio::sync::Mutex;
 
-static IS_STOP: AtomicBool = AtomicBool::new(false);
-static ALL_DEVICE: Mutex<Vec<Device>> = Mutex::const_new(vec![]);
+pub(crate) static IS_STOP: AtomicBool = AtomicBool::new(false);
+pub(crate) static ALL_DEVICE: Mutex<Vec<Device>> = Mutex::const_new(vec![]);
 
 #[async_trait]
 pub trait Link {
