@@ -1,13 +1,12 @@
 use std::{sync::atomic::Ordering, time::Duration};
 
 use crate::{
-    device::Device,
-    link::{Link, OnType, ALL_DEVICE, IS_STOP},
+    link::{Link, IS_STOP},
     utils,
 };
 use async_trait::async_trait;
 use crossbeam_channel::{tick, Receiver};
-use pnet::{datalink, ipnetwork::IpNetwork};
+use pnet::datalink;
 use protocol::NetworkPacket;
 
 const PORT: i32 = 2780;
@@ -22,12 +21,11 @@ impl Link for LanLink {
         while !IS_STOP.load(Ordering::SeqCst) {
             let interface = utils::select_default_interface(&datalink::interfaces());
 
-            if let Ok(_time) = tick.recv() {
+            if let Ok(_) = tick.recv() {
                 if let Some(interface) = interface {
                     interface.ips.iter().filter(|v| v.is_ipv4()).for_each(|v| {
                         v.iter().for_each(|v| {
-                            let ip = v.to_string();
-                            println!("{} - {}", interface.name, ip);
+                            tokio::spawn(async move {});
                         });
                     });
                 }
@@ -35,7 +33,7 @@ impl Link for LanLink {
         }
     }
 
-    async fn serve() -> Receiver<(OnType, Device)> {
+    async fn serve() -> Receiver<NetworkPacket> {
         todo!()
     }
 

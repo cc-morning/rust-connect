@@ -1,6 +1,15 @@
+pub enum DeviceType {
+    Unknown,
+    Desktop,
+    Laptop,
+    Phone,
+    Tablet,
+    Tv,
+}
+
 pub struct Device {
-    pub id: i64,
-    pub name: String,
-    pub os: String,
-    pub last_date: i64,
+    id: i64,
+    name: String,
+    r#type: DeviceType,
+    last_date: i64,
 }
