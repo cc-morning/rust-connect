@@ -4,4 +4,6 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
+bytes = { version = "1", default-features = false }
 serde = { version = "1", default-features = false, features = [ "derive", "alloc", "rc" ] }
+serde_json = { version = "1", default-features = false, features = [ "alloc", "arbitrary_precision", "raw_value", "unbounded_depth", "preserve_order" ] }

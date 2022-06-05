@@ -1,4 +1,5 @@
 use pnet::datalink::NetworkInterface;
+use std::net::{Ipv4Addr, SocketAddrV4, TcpListener};
 
 pub fn select_default_interface(interfaces: &[NetworkInterface]) -> Option<NetworkInterface> {
     let default_interface = interfaces.iter().find(|interface| {
@@ -19,4 +20,13 @@ pub fn select_default_interface(interfaces: &[NetworkInterface]) -> Option<Netwo
     });
 
     default_interface.cloned()
+}
+
+pub fn is_port_free(addr: Ipv4Addr, port: u16) -> bool {
+    let ipv4 = SocketAddrV4::new(addr, port);
+    TcpListener::bind(ipv4).is_ok()
+}
+
+pub fn free_port_in_range(addr: Ipv4Addr, min: u16, max: u16) -> Option<u16> {
+    (min..max).find(|port| is_port_free(addr, *port))
 }
